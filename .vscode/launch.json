@@ -1,0 +1,28 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "projeto_perguntas",
+            "cwd": "projeto_perguntas",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "projeto_perguntas (profile mode)",
+            "cwd": "projeto_perguntas",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "projeto_perguntas (release mode)",
+            "cwd": "projeto_perguntas",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}
