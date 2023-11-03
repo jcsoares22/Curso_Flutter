@@ -5,24 +5,30 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "projeto_perguntas",
-            "cwd": "projeto_perguntas",
+            "name": "expenses",
+            "cwd": "expenses",
             "request": "launch",
             "type": "dart"
         },
         {
-            "name": "projeto_perguntas (profile mode)",
-            "cwd": "projeto_perguntas",
+            "name": "expenses (profile mode)",
+            "cwd": "expenses",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
         },
         {
-            "name": "projeto_perguntas (release mode)",
-            "cwd": "projeto_perguntas",
+            "name": "expenses (release mode)",
+            "cwd": "expenses",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"
+        },
+        {
+            "name": "projeto_perguntas",
+            "cwd": "projeto_perguntas",
+            "request": "launch",
+            "type": "dart"
         }
     ]
 }
