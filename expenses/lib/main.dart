@@ -17,7 +17,7 @@ class ExpensesApp extends StatelessWidget {
       home: MyHomePage(),
       theme: tema.copyWith(
         colorScheme: tema.colorScheme.copyWith(
-          primary: Colors.blue,
+          primary: Colors.purple,
           secondary: Colors.purple,
         ),
         textTheme: tema.textTheme.copyWith(
