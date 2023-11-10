@@ -1,35 +1,38 @@
-import 'package:expenses/components/chart.dart';
+import 'package:expenses/components/transaction_form.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
-import './components/transaction_form.dart';
-import './components/transaction_list.dart';
+import 'components/transaction_list.dart';
+import 'components/chart.dart';
 import 'models/transaction.dart';
 
-void main(List<String> args) {
-  runApp(ExpensesApp());
-}
+main() => runApp(ExpensesApp());
 
 class ExpensesApp extends StatelessWidget {
+  ExpensesApp({Key? key}) : super(key: key);
+  final ThemeData tema = ThemeData();
+
   @override
   Widget build(BuildContext context) {
-    final ThemeData tema = ThemeData();
     return MaterialApp(
-      home: MyHomePage(),
+      home: const MyHomePage(),
       theme: tema.copyWith(
         colorScheme: tema.colorScheme.copyWith(
           primary: Colors.purple,
-          secondary: Colors.purple,
+          secondary: Colors.amber,
         ),
         textTheme: tema.textTheme.copyWith(
           headline6: const TextStyle(
-            fontFamily: "OpenSans",
+            fontFamily: 'OpenSans',
             fontSize: 18,
             fontWeight: FontWeight.bold,
-            color: Color.fromARGB(255, 12, 10, 10),
+            color: Colors.black,
           ),
-          button: TextStyle(color: Colors.white),
+          button: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
         ),
-        appBarTheme: AppBarTheme(
+        appBarTheme: const AppBarTheme(
           titleTextStyle: TextStyle(
             fontFamily: 'OpenSans',
             fontSize: 20,
@@ -42,29 +45,25 @@ class ExpensesApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key}) : super(key: key);
+
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _transactions = [];
+  bool _showChart = false;
 
   List<Transaction> get _recentTransactions {
     return _transactions.where((tr) {
-      return tr.date.isAfter(DateTime.now().subtract(const Duration(days: 7)));
+      return tr.date.isAfter(DateTime.now().subtract(
+        const Duration(days: 7),
+      ));
     }).toList();
   }
 
-  _openTransactionFormModal(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (_) {
-        return TransactionForm(_adiconarTransaction);
-      },
-    );
-  }
-
-  _adiconarTransaction(String title, double value, DateTime date) {
+  _addTransaction(String title, double value, DateTime date) {
     final newTransaction = Transaction(
       id: Random().nextDouble().toString(),
       title: title,
@@ -75,6 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _transactions.add(newTransaction);
     });
+
     Navigator.of(context).pop();
   }
 
@@ -84,25 +84,63 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  _openTransactionFormModal(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (_) {
+        return TransactionForm(_addTransaction);
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final availableHeight = MediaQuery.of(context).size.height;
+    final appBar = AppBar(
+      title: const Text('Despesas Pessoais'),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.add),
+          onPressed: () => _openTransactionFormModal(context),
+        ),
+      ],
+    );
+
+    final availableHeight = MediaQuery.of(context).size.height -
+        appBar.preferredSize.height -
+        MediaQuery.of(context).padding.top;
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Despesas pessoais'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () => _openTransactionFormModal(context),
-          ),
-        ],
-      ),
+      appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Chart(_recentTransactions),
-            TransactionList(_transactions, _removeTransaction),
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Exibir Grafico'),
+                Switch(
+                  value: _showChart,
+                  onChanged: (value) {
+                    setState(() {
+                      _showChart = value;
+                    });
+                  },
+                ),
+              ],
+            ),
+            if (_showChart)
+              Container(
+                child: SizedBox(
+                  height: availableHeight * 0.3,
+                  child: Chart(_recentTransactions),
+                ),
+              ),
+            if (!_showChart)
+              SizedBox(
+                height: availableHeight * 0.7,
+                child: TransactionList(_transactions, _removeTransaction),
+              ),
           ],
         ),
       ),
