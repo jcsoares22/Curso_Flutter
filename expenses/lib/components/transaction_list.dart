@@ -22,7 +22,7 @@ class TransactionList extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 SizedBox(
-                  height: 20,
+                  height: 90,
                   child: Image.asset(
                     'assets/images/waiting.png',
                     fit: BoxFit.cover,
