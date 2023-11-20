@@ -23,9 +23,11 @@ class AdaptativeButton extends StatelessWidget {
       );
     } else {
       return TextButton(
-        child: Text(label),
-        onPressed: () => onPressed,
-      );
+          child: Text(label),
+          onPressed: () => onPressed,
+          style: TextButton.styleFrom(
+            backgroundColor: const Color.fromARGB(255, 218, 145, 231),
+          ));
     }
   }
 }
