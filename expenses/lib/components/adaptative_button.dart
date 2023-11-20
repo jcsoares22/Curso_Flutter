@@ -15,15 +15,17 @@ class AdaptativeButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Platform.isIOS
-        ? CupertinoButton(
-            child: Text(label),
-            onPressed: onPressed,
-            color: Theme.of(context).primaryColor,
-          )
-        : TextButton(
-            child: Text(label),
-            onPressed: onPressed,
-          );
+    if (Platform.isIOS) {
+      return CupertinoButton(
+        child: Text(label),
+        onPressed: () => onPressed,
+        color: Theme.of(context).primaryColor,
+      );
+    } else {
+      return TextButton(
+        child: Text(label),
+        onPressed: () => onPressed,
+      );
+    }
   }
 }
