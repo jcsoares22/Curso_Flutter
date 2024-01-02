@@ -39,6 +39,15 @@ class _MyAppState extends State<MyApp> {
       }).toList();
     });
   }
+  void _toggleFavorite(Meal meal){
+    setState(() {
+      _favoriteMeals.contains(meal) ?
+      _favoriteMeals.remove(meal)
+      : _favoriteMeals.add(meal);
+    });
+  }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +68,7 @@ class _MyAppState extends State<MyApp> {
         AppRoutes.HOME: (ctx) => TabsScreen(_favoriteMeals),
         AppRoutes.CATEGORIES_MEALS: (ctx) =>
             CategoriesMealsScreen(_availableMeals),
-        AppRoutes.MEAL_DETAIL: (ctx) => MealDedtailScreen(),
+        AppRoutes.MEAL_DETAIL: (ctx) => MealDedtailScreen(_toggleFavorite),
         AppRoutes.SETTINGS: (ctx) => SettingsScreen(settings, _filterMeals),
       },
     );
