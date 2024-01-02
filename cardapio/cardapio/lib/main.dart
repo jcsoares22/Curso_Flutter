@@ -21,6 +21,7 @@ class _MyAppState extends State<MyApp> {
   Settings settings = Settings();
 
   List<Meal> _availableMeals = dummyMeals;
+  List<Meal> _favoriteMeals = [];
   void _filterMeals(Settings settings) {
     setState(() {
       this.settings = settings;
@@ -55,7 +56,7 @@ class _MyAppState extends State<MyApp> {
             ),
       ),
       routes: {
-        AppRoutes.HOME: (ctx) => TabsScreen(),
+        AppRoutes.HOME: (ctx) => TabsScreen(_favoriteMeals),
         AppRoutes.CATEGORIES_MEALS: (ctx) =>
             CategoriesMealsScreen(_availableMeals),
         AppRoutes.MEAL_DETAIL: (ctx) => MealDedtailScreen(),
