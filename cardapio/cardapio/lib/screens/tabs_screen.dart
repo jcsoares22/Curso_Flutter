@@ -5,10 +5,9 @@ import '../components/main_drawer.dart';
 import '../models/meal.dart';
 
 class TabsScreen extends StatefulWidget {
-  ///const TabsScreen({Key? key}) : super(key: key);
   final List<Meal> favoriteMeals;
 
-  const TabsScreen(this.favoriteMeals);
+  const TabsScreen(this.favoriteMeals, {Key? key}) : super(key: key);
 
   @override
   State<TabsScreen> createState() => _TabsScreenState();
@@ -17,10 +16,11 @@ class TabsScreen extends StatefulWidget {
 class _TabsScreenState extends State<TabsScreen> {
   int _selectedScreenIndex = 0;
 
-   List<Map<String, Object>>? _screens;
+  List<Map<String, Object>>? _screens;
 
   @override
-  void iniSate() {
+  void initState() {
+    super.initState();
     _screens = [
       {
         'title': 'Lista de Categorias',
@@ -44,11 +44,11 @@ class _TabsScreenState extends State<TabsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          _screens?[_selectedScreenIndex]['title'] as String,
+          _screens![_selectedScreenIndex]['title'] as String,
         ),
       ),
-      drawer: MainDrawer(),
-      body: _screens?[_selectedScreenIndex]['screen'] as Widget,
+      drawer: const MainDrawer(),
+      body: _screens![_selectedScreenIndex]['screen'] as Widget,
       bottomNavigationBar: BottomNavigationBar(
         onTap: _selectScreen,
         backgroundColor: Theme.of(context).colorScheme.primary,
