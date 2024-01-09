@@ -16,22 +16,20 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return CounterProvider(
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(
-              seedColor: Colors.deepPurple, primary: Colors.black),
-          secondaryHeaderColor: Colors.deepOrange,
-          useMaterial3: true,
-          fontFamily: 'Lato',
-        ),
-        home: ProductOverviewPage(),
-        routes: {
-          AppRoutes.PRODUCT_DETAIL: (context) => CounterPage(),
-        },
-        debugShowCheckedModeBanner: false,
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.deepPurple, primary: Colors.black),
+        secondaryHeaderColor: Colors.deepOrange,
+        useMaterial3: true,
+        fontFamily: 'Lato',
       ),
+      home: ProductOverviewPage(),
+      routes: {
+        AppRoutes.PRODUCT_DETAIL: (context) => ProductDatailPage(),
+      },
+      debugShowCheckedModeBanner: false,
     );
   }
 }
