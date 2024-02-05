@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shop/models/product.dart';
 
-class ProductDatailPage extends StatelessWidget {
-  const ProductDatailPage({
-    super.key,
-  });
+class ProductDetailPage extends StatelessWidget {
+  const ProductDetailPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

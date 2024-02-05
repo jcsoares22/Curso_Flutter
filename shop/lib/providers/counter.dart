@@ -14,18 +14,16 @@ class CounterState {
 
 class CounterProvider extends InheritedWidget {
   final CounterState state = CounterState();
-  CounterProvider({super.key, required Widget child}) : super(child: child);
+
+  CounterProvider({Key? key, required Widget child})
+      : super(key: key, child: child);
 
   static CounterProvider? of(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<CounterProvider>();
   }
 
-  bool updateSgouldNotify(covariant InheritedWidget oldWidget) {
-    return true;
-  }
-
   @override
   bool updateShouldNotify(covariant CounterProvider oldWidget) {
-    return oldWidget.state.diff(state);
+    throw oldWidget.state.diff(state);
   }
 }
