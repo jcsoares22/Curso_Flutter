@@ -51,4 +51,3 @@ class ProductItem extends StatelessWidget {
   }
 }
 
-class product {}
