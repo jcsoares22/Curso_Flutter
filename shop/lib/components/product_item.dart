@@ -31,7 +31,7 @@ class ProductItem extends StatelessWidget {
           trailing: IconButton(
             onPressed: () {
               cart.addItem(product);
-              print(cart.itemCount);
+              
             },
             icon: const Icon(Icons.shopping_cart),
             color: Theme.of(context).colorScheme.secondary,
@@ -44,7 +44,7 @@ class ProductItem extends StatelessWidget {
           ),
           onTap: () {
             Navigator.of(context).pushNamed(
-              AppRoutes.productDetail,
+              AppRoutes.PRODUCT_DETAIL,
               arguments: product,
             );
           },
