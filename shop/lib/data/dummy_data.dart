@@ -3,7 +3,7 @@ import 'package:shop/models/product.dart';
 final dummyProducts = [
   Product(
     id: 'p1',
-   name: 'Red Shirt',
+    name: 'Red Shirt',
     description: 'A red shirt - it is pretty red!',
     price: 29.99,
     imageUrl:
@@ -11,7 +11,7 @@ final dummyProducts = [
   ),
   Product(
     id: 'p2',
-   name: 'Trousers',
+    name: 'Trousers',
     description: 'A nice pair of trousers.',
     price: 59.99,
     imageUrl:

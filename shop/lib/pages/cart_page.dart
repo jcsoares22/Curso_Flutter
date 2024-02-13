@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop/components/cart_item.dart';
 import 'package:shop/models/cart.dart';
+import 'package:shop/models/order_list.dart';
 
 class CartPage extends StatelessWidget {
   const CartPage({super.key});
@@ -8,6 +10,7 @@ class CartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Cart cart = Provider.of(context);
+    final items = cart.items.values.toList();
     return Scaffold(
       appBar: AppBar(
         title: Text('Carrinho'),
@@ -15,7 +18,10 @@ class CartPage extends StatelessWidget {
       body: Column(
         children: [
           Card(
-            margin: const EdgeInsets.all(25),
+            margin: const EdgeInsets.symmetric(
+              horizontal: 15,
+              vertical: 25,
+            ),
             child: Padding(
               padding: const EdgeInsets.all(10),
               child: Row(
@@ -39,11 +45,21 @@ class CartPage extends StatelessWidget {
                   ),
                   const Spacer(),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Provider.of<OrderList>(context, listen: false)
+                          .addOrder(cart);
+                      cart.clear();
+                    },
                     child: const Text('COMPRAR'),
                   )
                 ],
               ),
+            ),
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: items.length,
+              itemBuilder: (ctx, i) => CartItemWidget(cartItem: items[i]),
             ),
           ),
         ],
