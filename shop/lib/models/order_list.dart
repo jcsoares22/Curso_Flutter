@@ -1,18 +1,17 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:shop/models/cart.dart';
 import 'package:shop/models/order.dart';
 
 class OrderList with ChangeNotifier {
-  List<Order> _items = [];
-
-  List<Order> get items {
-    return [...items];
-  }
+  final List<Order> _items = [];
 
   int get itemsCount {
     return _items.length;
+  }
+
+  List<Order> get items {
+    return [..._items];
   }
 
   void addOrder(Cart cart) {
@@ -21,10 +20,11 @@ class OrderList with ChangeNotifier {
       Order(
         id: Random().nextDouble().toString(),
         total: cart.totalAmount,
-        product: cart.items.values.toList(),
         date: DateTime.now(),
+        product: cart.items.values.toList(),
       ),
     );
+
     notifyListeners();
   }
 }

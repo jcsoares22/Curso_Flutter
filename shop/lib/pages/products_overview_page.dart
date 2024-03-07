@@ -22,7 +22,7 @@ class _ProductsOverviewPageState extends State<ProductsOverviewPage> {
   bool _showFavoriteOnly = false;
   @override
   Widget build(BuildContext context) {
-    //  final provider = Provider.of<ProductList>(context);
+    //final provider = Provider.of<ProductList>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Minha Loja'),
@@ -30,13 +30,13 @@ class _ProductsOverviewPageState extends State<ProductsOverviewPage> {
           PopupMenuButton(
             icon: Icon(Icons.more_vert),
             itemBuilder: (_) => [
-              PopupMenuItem(
-                child: const Text('Somente Favorito'),
+              const PopupMenuItem(
                 value: filterOptions.favorite,
+                child: Text('Somente Favorito'),
               ),
-              PopupMenuItem(
-                child: Text('Todos'),
+              const PopupMenuItem(
                 value: filterOptions.All,
+                child: Text('Todos'),
               ),
             ],
             onSelected: (filterOptions selectedValue) {
@@ -54,7 +54,7 @@ class _ProductsOverviewPageState extends State<ProductsOverviewPage> {
               onPressed: () {
                 Navigator.of(context).pushNamed(AppRoutes.CART);
               },
-              icon: Icon(Icons.shopping_cart),
+              icon: const Icon(Icons.shopping_cart),
             ),
             builder: (ctx, cart, child) => Badgee(
               value: cart.itemCount.toString(),

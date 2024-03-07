@@ -11,6 +11,7 @@ class AppDrawer extends StatelessWidget {
         children: [
           AppBar(
             title: Text('Bem vindo Usuário'),
+            automaticallyImplyLeading: false,
           ),
           Divider(),
           ListTile(
@@ -27,7 +28,15 @@ class AppDrawer extends StatelessWidget {
             onTap: (() {
               Navigator.of(context).pushReplacementNamed(AppRoutes.ORDERS);
             }),
-          )
+          ),
+          Divider(),
+          ListTile(
+            leading: Icon(Icons.edit),
+            title: Text('Grenciar Produtos'),
+            onTap: (() {
+              Navigator.of(context).pushReplacementNamed(AppRoutes.PRODUCTS);
+            }),
+          ),
         ],
       ),
     );
