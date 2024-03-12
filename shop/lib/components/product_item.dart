@@ -21,11 +21,13 @@ class ProductItem extends StatelessWidget {
         child: Row(
           children: [
             IconButton(
+              color: Color.fromARGB(255, 173, 9, 202),
               icon: Icon(Icons.edit),
               onPressed: (() {}),
             ),
             IconButton(
               icon: Icon(Icons.delete),
+              color: Colors.red,
               onPressed: (() {}),
             )
           ],
