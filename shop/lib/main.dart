@@ -38,6 +38,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSwatch().copyWith(
             primary: const Color.fromARGB(255, 173, 9, 202),
             secondary: Colors.deepOrange,
+            background: Colors.white,
           ),
           fontFamily: 'Lato',
         ),

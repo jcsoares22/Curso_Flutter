@@ -1,7 +1,4 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class ProductFormPage extends StatefulWidget {
   const ProductFormPage({super.key});
@@ -14,11 +11,16 @@ class _ProductFormPageState extends State<ProductFormPage> {
   final _priceFocus = FocusNode();
   final _descriptionFocus = FocusNode();
 
-@override
- Void dispose(){
-  super.dispose();
-  _priceFocus.dispose();
- }
+  void Dispose() {
+    super.dispose();
+    _priceFocus.dispose();
+  }
+
+//@override
+  //uture<Void> dispose() async {
+  //super.dispose();
+  //_//priceFocus.dispose();
+  //}
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +36,8 @@ class _ProductFormPageState extends State<ProductFormPage> {
             TextFormField(
               decoration: InputDecoration(labelText: 'Nome'),
               textInputAction: TextInputAction.next,
-              onFieldSubmitted: (_){
-                FocusScope.of(context).requestFocus(_priceFocus)
+              onFieldSubmitted: (_) {
+                FocusScope.of(context).requestFocus(_priceFocus);
               },
             ),
             TextFormField(
@@ -45,14 +47,14 @@ class _ProductFormPageState extends State<ProductFormPage> {
               keyboardType: TextInputType.numberWithOptions(
                 decimal: true,
               ),
-              onFieldSubmitted: (_){
+              onFieldSubmitted: (_) {
                 FocusScope.of(context).requestFocus(_descriptionFocus);
               },
             ),
             TextFormField(
               decoration: InputDecoration(labelText: 'Descrição'),
               textInputAction: TextInputAction.next,
-              onFieldSubmitted: (_){
+              onFieldSubmitted: (_) {
                 FocusScope.of(context).requestFocus(_priceFocus);
               },
             ),
