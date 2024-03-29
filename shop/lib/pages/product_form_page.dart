@@ -40,16 +40,19 @@ class _ProductFormPageState extends State<ProductFormPage> {
     setState(() {});
   }
 
-  void _submitForm(){
-   _formKey.currentState?.save();
-   final newProduct = Product(id: Random().nextDouble().toString(),
-    name: _formData['name' ] as String, 
-    description: _formData['description' ] as String, 
-    price: _formData['price'] as double, 
-    imageUrl: _formData['imageUrl' ] as String,);
+  Future<void> _submitForm() async {
+    _formKey.currentState?.save();
+    final newProduct = Product(
+      id: Random().nextDouble().toString(),
+      name: _formData['name'] as String,
+      description: _formData['descripton'] as String,
+      price: _formData['price'] as double,
+      imageUrl: _formData['imageUrl'] as String,
+    );
+
     print(newProduct.id);
-      print(newProduct.name);
-        print(newProduct.price);
+    print(newProduct.name);
+    print(newProduct.price);
   }
 
 //@override
@@ -63,7 +66,12 @@ class _ProductFormPageState extends State<ProductFormPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Formulario de produtos'),
-        actions: [IconButton(onPressed: _submitForm, icon: Icon(Icons.save))],
+        actions: [
+          IconButton(
+            onPressed: _submitForm,
+            icon: const Icon(Icons.save),
+          )
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(15),
@@ -89,7 +97,8 @@ class _ProductFormPageState extends State<ProductFormPage> {
                 onFieldSubmitted: (_) {
                   FocusScope.of(context).requestFocus(_descriptionFocus);
                 },
-                onSaved: (price) => _formData['price'] = price ?? '',
+                onSaved: (price) =>
+                    _formData['price'] = double.parse(price ?? '0'),
               ),
               TextFormField(
                 decoration: InputDecoration(labelText: 'Descrição'),
@@ -99,8 +108,9 @@ class _ProductFormPageState extends State<ProductFormPage> {
                   FocusScope.of(context).requestFocus(_imageUrlFocus);
                 },
                 keyboardType: TextInputType.multiline,
-                maxLines: 3,
-                onSaved: (descripton) => _formData['descripton'] = descripton ?? '',
+                maxLines: 1,
+                onSaved: (descripton) =>
+                    _formData['descripton'] = descripton ?? '',
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -111,35 +121,37 @@ class _ProductFormPageState extends State<ProductFormPage> {
                       textInputAction: TextInputAction.next,
                       keyboardType: TextInputType.url,
                       //textInputAction: TextInputAction.done,
-                    //  textDirection: TextInputAction.done,
+                      //  textDirection: TextInputAction.done,
                       focusNode: _imageUrlFocus,
                       controller: _imageUrlController,
                       onFieldSubmitted: (_) => _submitForm,
-                 onSaved: (imageUrl) => _formData['imageUrl'] = imageUrl ?? '',
+                      onSaved: (imageUrl) =>
+                          _formData['imageUrl'] = imageUrl ?? ' ',
                     ),
                   ),
                   Container(
-                      height: 100,
-                      width: 100,
-                      margin: const EdgeInsets.only(
-                        top: 10,
-                        left: 10,
+                    height: 100,
+                    width: 100,
+                    margin: const EdgeInsets.only(
+                      top: 10,
+                      left: 10,
+                    ),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.grey,
+                        width: 1,
                       ),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.grey,
-                          width: 1,
-                        ),
-                      ),
-                      alignment: Alignment.center,
-                      child: _imageUrlController.text.isEmpty
-                          ? Text('informe a Url')
-                          : FittedBox(
-                              child: Image.network(
-                                _imageUrlController.text,
-                                fit: BoxFit.cover,
-                              ),
-                            ),),
+                    ),
+                    alignment: Alignment.center,
+                    child: _imageUrlController.text.isEmpty
+                        ? Text('informe a Url')
+                        : FittedBox(
+                            child: Image.network(
+                              _imageUrlController.text,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                  ),
                 ],
               ),
             ],
