@@ -20,7 +20,7 @@ class ProductList with ChangeNotifier {
   }
 
   // ignore: non_constant_identifier_names
-  void SaveProduct(Map<String, Object> data) {
+  Future <void>  SaveProduct(Map<String, Object> data) {
     bool hasId = data['id'] != null;
 
     final product = Product(
@@ -31,19 +31,20 @@ class ProductList with ChangeNotifier {
       imageUrl: data['imageUrl'] as String,
     );
     if (hasId) {
-      updateProduct(product);
+      return  updateProduct(product);
     } else {
-      addProduct(product);
+      return  addProduct(product);
     }
   }
 
-  void updateProduct(Product product) {
+ Future <void> updateProduct(Product product) {
     int index = _items.indexWhere((p) => p.id == product.id);
 
     if (index >= 0) {
       _items[index] = product;
       notifyListeners();
     }
+    return Future.value();
   }
 
   void removeProduct(Product product) {
@@ -55,7 +56,7 @@ class ProductList with ChangeNotifier {
     }
   }
 
-  void addProduct(Product product) {
+ Future <void> addProduct(Product product) {
     final future = http.post(
       Uri.parse('$_baseUrl/products.json'),
       body: jsonEncode(
@@ -69,7 +70,7 @@ class ProductList with ChangeNotifier {
       ),
     );
 
-    future.then((response) {
+    return future.then((response) {
       final id = jsonDecode(response.body)['name'];
       _items.add(Product(
         id: id,

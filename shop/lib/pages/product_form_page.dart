@@ -22,6 +22,8 @@ class _ProductFormPageState extends State<ProductFormPage> {
   final _formKey = GlobalKey<FormState>();
   final _formData = <String, Object>{};
 
+  bool _isLoanding = false;
+
   @override
   void initState() {
     super.initState();
@@ -60,6 +62,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
     setState(() {});
   }
 
+
   bool isValidadImageURL(String url) {
     bool isValidUrl = Uri.tryParse(url)?.hasAbsolutePath ?? false;
     bool endsWithFile = url.toLowerCase().endsWith('.png') ||
@@ -76,12 +79,26 @@ class _ProductFormPageState extends State<ProductFormPage> {
 
     _formKey.currentState?.save();
 
+setState(() {
+  _isLoanding = true;
+});
     Provider.of<ProductList>(
       context,
       listen: false,
-    ).SaveProduct(_formData);
+    ).SaveProduct(_formData).catchError((error){
+      return showDialog(context: context, 
+      builder: (ctx)=> AlertDialog(title: Text('Ocorreu um erro!'), 
+      content: Text('Ocorreu um erro ao salvar o produto.'),
+      actions: [TextButton(onPressed: () => Navigator.of(context).pop(), child: Text('ok'),)],
+      ),
+      );
+    }).then((value) {
+      setState(() {
+        _isLoanding = false;
+      });
+      Navigator.of(context).pop();});
 
-    Navigator.of(context).pop();
+    
   }
 
 //@override
@@ -102,7 +119,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
           )
         ],
       ),
-      body: Padding(
+      body: _isLoanding ? Center(child: CircularProgressIndicator(),) :Padding(
         padding: const EdgeInsets.all(15),
         child: Form(
           key: _formKey,
