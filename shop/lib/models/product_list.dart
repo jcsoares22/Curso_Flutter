@@ -7,11 +7,10 @@ import 'package:http/http.dart' as http;
 import 'package:shop/models/product.dart';
 
 class ProductList with ChangeNotifier {
-  final _Url = 'https://shop-jc-default-rtdb.firebaseio.com/products.json';
+  final _baseUrl = 'https://shop-jc-default-rtdb.firebaseio.com/products';
   final List<Product> _items = [];
 
   List<Product> get items => [..._items];
-
   List<Product> get favoriteItems =>
       _items.where((prod) => prod.isFavorite).toList();
 
@@ -20,24 +19,23 @@ class ProductList with ChangeNotifier {
   }
 
   Future<void> loadProducts() async {
-    final response = await http.get(Uri.parse(_Url));
-    print(jsonDecode(response.body));
+    _items.clear();
+    final response = await http.get(Uri.parse('$_baseUrl.json'));
+    if (response.body == 'null') return;
     Map<String, dynamic> data = jsonDecode(response.body);
-    data.forEach((Productid, ProductData) {
-      _items.add(Product(
-        id: Productid,
-        name: ProductData['name'],
-        description: ProductData['description'],
-        price: ProductData['price'],
-        imageUrl: ProductData['imageUrl'],
-        isFavorite: ProductData['isFavorite'],
-      ));
-    });
+    data.forEach((Productid, ProductData) => _items.add(Product(
+          id: Productid,
+          name: ProductData['name'],
+          description: ProductData['description'],
+          price: ProductData['price'],
+          imageUrl: ProductData['imageUrl'],
+          isFavorite: ProductData['isFavorite'],
+        )));
     notifyListeners();
   }
 
   // ignore: non_constant_identifier_names
-  Future <void>  SaveProduct(Map<String, Object> data) {
+  Future<void> SaveProduct(Map<String, Object> data) {
     bool hasId = data['id'] != null;
 
     final product = Product(
@@ -48,13 +46,13 @@ class ProductList with ChangeNotifier {
       imageUrl: data['imageUrl'] as String,
     );
     if (hasId) {
-      return  updateProduct(product);
+      return updateProduct(product);
     } else {
-      return  addProduct(product);
+      return addProduct(product);
     }
   }
 
- Future <void> updateProduct(Product product) {
+  Future<void> updateProduct(Product product) {
     int index = _items.indexWhere((p) => p.id == product.id);
 
     if (index >= 0) {
@@ -73,9 +71,9 @@ class ProductList with ChangeNotifier {
     }
   }
 
- Future <void> addProduct(Product product) {
+  Future<void> addProduct(Product product) {
     final future = http.post(
-      Uri.parse(_Url),
+      Uri.parse('$_baseUrl.json'),
       body: jsonEncode(
         {
           "name": product.name,
