@@ -20,7 +20,7 @@ class ProductList with ChangeNotifier {
 
   Future<void> loadProducts() async {
     _items.clear();
-    final response = await http.get(Uri.parse('$_baseUrl.json'));
+    final response = await http.get(Uri.parse('$_baseUrl.json'),);
     if (response.body == 'null') return;
     Map<String, dynamic> data = jsonDecode(response.body);
     data.forEach((Productid, ProductData) => _items.add(Product(
@@ -52,22 +52,39 @@ class ProductList with ChangeNotifier {
     }
   }
 
-  Future<void> updateProduct(Product product) {
+  Future<void> updateProduct(Product product) async{
     int index = _items.indexWhere((p) => p.id == product.id);
 
+
     if (index >= 0) {
+      await http.patch(
+      Uri.parse('$_baseUrl/${product.id}.json'),
+      body: jsonEncode(
+        {
+          "name": product.name,
+          "description": product.description,
+          "price": product.price,
+          "imageUrl": product.imageUrl,
+          "isFavorite": product.isFavorite,
+        },),);
+
+
       _items[index] = product;
       notifyListeners();
     }
     return Future.value();
   }
 
-  void removeProduct(Product product) {
+ Future<void>  removeProduct(Product product) async{
     int index = _items.indexWhere((p) => p.id == product.id);
 
     if (index >= 0) {
-      _items.removeWhere((p) => p.id == product.id);
+
+       _items.removeWhere((p) => p.id == product.id);
       notifyListeners();
+        await http.delete(
+      Uri.parse('$_baseUrl/${product.id}.json'));
+     
     }
   }
 
