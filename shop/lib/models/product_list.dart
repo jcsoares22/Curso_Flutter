@@ -79,12 +79,19 @@ class ProductList with ChangeNotifier {
     int index = _items.indexWhere((p) => p.id == product.id);
 
     if (index >= 0) {
-
-       _items.removeWhere((p) => p.id == product.id);
+    final product = _items[index];
+       _items.remove(product);
       notifyListeners();
-        await http.delete(
-      Uri.parse('$_baseUrl/${product.id}.json'));
+
+
+      final response =  await http.delete(
+      Uri.parse('$_baseUrl/${product.id}'));
      
+
+     if (response.statusCode >= 400){
+      _items.insert(index, product);
+       notifyListeners();
+     }
     }
   }
 
