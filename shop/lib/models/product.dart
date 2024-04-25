@@ -31,7 +31,7 @@ void _toggleFavorite(){
       Uri.parse('${Contants.PRODUCT_BASE_URL}/$id.json'),
       body: jsonEncode(
         {
-                   "isFavorite": isFavorite,
+           "isFavorite": isFavorite,
         },),);
 
         if (response.statusCode >= 400)

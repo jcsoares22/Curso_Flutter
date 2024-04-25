@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:shop/models/cart.dart';
 import 'package:shop/models/order.dart';
 
@@ -14,7 +15,8 @@ class OrderList with ChangeNotifier {
     return [..._items];
   }
 
-  void addOrder(Cart cart) {
+ Future <void> addOrder(Cart cart) async {
+  post(url)
     _items.insert(
       0,
       Order(
