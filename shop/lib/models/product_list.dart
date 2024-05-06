@@ -21,7 +21,8 @@ class ProductList with ChangeNotifier {
 
   Future<void> loadProducts() async {
     _items.clear();
-    final response = await http.get(Uri.parse('${Contants.PRODUCT_BASE_URL}.json'),);
+    final response =
+        await http.get(Uri.parse('${Constants.PRODUCT_BASE_URL}.json'));
     if (response.body == 'null') return;
     Map<String, dynamic> data = jsonDecode(response.body);
     data.forEach((Productid, ProductData) => _items.add(Product(
@@ -53,22 +54,22 @@ class ProductList with ChangeNotifier {
     }
   }
 
-  Future<void> updateProduct(Product product) async{
+  Future<void> updateProduct(Product product) async {
     int index = _items.indexWhere((p) => p.id == product.id);
-
 
     if (index >= 0) {
       await http.patch(
-      Uri.parse('${Contants.PRODUCT_BASE_URL}/${product.id}.json'),
-      body: jsonEncode(
-        {
-          "name": product.name,
-          "description": product.description,
-          "price": product.price,
-          "imageUrl": product.imageUrl,
-          "isFavorite": product.isFavorite,
-        },),);
-
+        Uri.parse('${Constants.PRODUCT_BASE_URL}/${product.id}.json'),
+        body: jsonEncode(
+          {
+            "name": product.name,
+            "description": product.description,
+            "price": product.price,
+            "imageUrl": product.imageUrl,
+            "isFavorite": product.isFavorite,
+          },
+        ),
+      );
 
       _items[index] = product;
       notifyListeners();
@@ -76,30 +77,31 @@ class ProductList with ChangeNotifier {
     return Future.value();
   }
 
- Future<void>  removeProduct(Product product) async{
+  Future<void> removeProduct(Product product) async {
     int index = _items.indexWhere((p) => p.id == product.id);
 
     if (index >= 0) {
-    final product = _items[index];
-       _items.remove(product);
+      final product = _items[index];
+      _items.remove(product);
       notifyListeners();
 
+      final response = await http.delete(
+          Uri.parse('${Constants.PRODUCT_BASE_URL}/${product.id}.json'));
 
-      final response =  await http.delete(
-      Uri.parse('${Contants.PRODUCT_BASE_URL}/${product.id}.json'));
-     
-
-     if (response.statusCode >= 400){
-      _items.insert(index, product);
-       notifyListeners();
-       throw HttpException(msg: 'Não foi possivel excluir o produto.', statusCode: response.statusCode,);
-     }
+      if (response.statusCode >= 400) {
+        _items.insert(index, product);
+        notifyListeners();
+        throw HttpException(
+          msg: 'Não foi possivel excluir o produto.',
+          statusCode: response.statusCode,
+        );
+      }
     }
   }
 
   Future<void> addProduct(Product product) {
     final future = http.post(
-      Uri.parse('${Contants.PRODUCT_BASE_URL}json'),
+      Uri.parse('${Constants.PRODUCT_BASE_URL}.json'),
       body: jsonEncode(
         {
           "name": product.name,
