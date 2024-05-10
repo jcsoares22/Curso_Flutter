@@ -18,7 +18,8 @@ class OrderList with ChangeNotifier {
 
   Future<void> addOrder(Cart cart) async {
     final date = DateTime.now();
-    final response = http.post(
+
+    final response = await http.post(
       Uri.parse('${Constants.ORDER_BASE_URL}.json'),
       body: jsonEncode(
         {
@@ -35,7 +36,7 @@ class OrderList with ChangeNotifier {
       ),
     );
 
-    return future.then((response) {final id = jsonDecode(response.body)['name'];
+      final id = jsonDecode(response.body)['name'];
     _items.insert(
       0,
       Order(
@@ -45,10 +46,7 @@ class OrderList with ChangeNotifier {
         product: cart.items.values.toList(),
       ),
     );
-     notifyListeners();};
-     
-
-   
+     notifyListeners();
   }
   
 }
