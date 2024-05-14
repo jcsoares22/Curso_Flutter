@@ -15,6 +15,22 @@ class OrderList with ChangeNotifier {
   List<Order> get items {
     return [..._items];
   }
+   Future<void> loadOrders() async {
+    _items.clear();
+    final response =
+        await http.get(Uri.parse('${Constants.ORDER_BASE_URL}.json'));
+    if (response.body == 'null') return;
+    Map<String, dynamic> data = jsonDecode(response.body);
+   /* data.forEach((orderId, orderDara) => _items.add(Product(
+          id: Productid,
+          name: ProductData['name'],
+          description: ProductData['description'],
+          price: ProductData['price'],
+          imageUrl: ProductData['imageUrl'],
+          isFavorite: ProductData['isFavorite'],
+        )));
+    notifyListeners();*/
+  }
 
   Future<void> addOrder(Cart cart) async {
     final date = DateTime.now();

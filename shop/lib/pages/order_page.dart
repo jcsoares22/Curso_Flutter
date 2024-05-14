@@ -4,10 +4,24 @@ import 'package:shop/components/app_drawer.dart';
 import 'package:shop/components/order.dart';
 import 'package:shop/models/order_list.dart';
 
-class OrderPage extends StatelessWidget {
+class OrderPage extends StatefulWidget {
   const OrderPage({super.key});
 
   @override
+  State<OrderPage> createState() => _OrderPageState();
+}
+
+class _OrderPageState extends State<OrderPage> {
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<OrderList>(context, listen: false)
+        .loadOrders()
+        .then((_) => {_isLoading = false});
+  }
+
   Widget build(BuildContext context) {
     final OrderList orders = Provider.of(context);
     return Scaffold(
