@@ -23,20 +23,24 @@ class OrderList with ChangeNotifier {
       Uri.parse('${Constants.ORDER_BASE_URL}.json'),
       body: jsonEncode(
         {
-            'total': cart.totalAmount,
-            'date': date.toIso8601String(),
-            'product': cart.items.values.map((CartItem) => { 
-                 'id': CartItem.id,
-                 'productId': CartItem.productId,
-                 'name': CartItem.name,
-                 'quantity': CartItem.quantity,
-                 'price': CartItem.price,
-            },),
+          'total': cart.totalAmount,
+          'date': date.toIso8601String(),
+          'product': cart.items.values
+              .map(
+                (CartItem) => {
+                  'id': CartItem.id,
+                  'productId': CartItem.productId,
+                  'name': CartItem.name,
+                  'quantity': CartItem.quantity,
+                  'price': CartItem.price,
+                },
+              )
+              .toList(),
         },
       ),
     );
 
-      final id = jsonDecode(response.body)['name'];
+    final id = jsonDecode(response.body)['name'];
     _items.insert(
       0,
       Order(
@@ -46,7 +50,6 @@ class OrderList with ChangeNotifier {
         product: cart.items.values.toList(),
       ),
     );
-     notifyListeners();
+    notifyListeners();
   }
-  
 }
