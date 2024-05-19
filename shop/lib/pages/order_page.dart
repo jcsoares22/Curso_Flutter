@@ -19,6 +19,7 @@ class OrderPage extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           } else
+            // ignore: curly_braces_in_flow_control_structures
             return Consumer<OrderList>(
                 builder: (ctx, orders, child) => ListView.builder(
                     itemCount: orders.itemsCount,
