@@ -5,8 +5,8 @@ import 'package:shop/models/cart.dart';
 import 'package:shop/models/product.dart';
 import 'package:shop/utils/app_routes.dart';
 
-class ProducGridtItem extends StatelessWidget {
-  const ProducGridtItem({Key? key}) : super(key: key);
+class ProductGridItem extends StatelessWidget {
+  const ProductGridItem({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,29 +37,40 @@ class ProducGridtItem extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           trailing: IconButton(
+            icon: const Icon(Icons.shopping_cart),
+            color: Theme.of(context).colorScheme.secondary,
             onPressed: () {
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text('Produto adicionado com sucesso!'),
-                  duration: Duration(seconds: 2),
+                  content: const Text('Produto adicionado com sucesso!'),
+                  duration: const Duration(seconds: 2),
                   action: SnackBarAction(
-                      label: 'DESFAZER',
-                      onPressed: () {
-                        cart.removeSingleItem(product.id);
-                      }),
+                    label: 'DESFAZER',
+                    onPressed: () {
+                      cart.removeSingleItem(product.id);
+                    },
+                  ),
                 ),
               );
               cart.addItem(product);
             },
-            icon: const Icon(Icons.shopping_cart),
-            color: Theme.of(context).colorScheme.secondary,
           ),
         ),
         child: GestureDetector(
-          child: Image.network(
-            product.imageUrl,
-            fit: BoxFit.cover,
+          child: Hero(
+            tag: product.id,
+            child: FadeInImage(
+              placeholder:
+                  const AssetImage('assets/images/product-placeholder.png'),
+              image: NetworkImage(product.imageUrl),
+              fit: BoxFit.cover,
+            ),
           ),
+          // child: Image.network(
+          //   product.imageUrl,
+          //   fit: BoxFit.cover,
+          // ),
           onTap: () {
             Navigator.of(context).pushNamed(
               AppRoutes.PRODUCT_DETAIL,

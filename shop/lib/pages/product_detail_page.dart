@@ -12,19 +12,25 @@ class ProductDetailPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(product.name),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              child: Image.network(
-                product.imageUrl,
-                fit: BoxFit.cover,
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            expandedHeight: 300,
+            pinned: true,
+            flexibleSpace: FlexibleSpaceBar(title: Text(product.name),
+            background: Hero(
+                tag: product.id,
+                child: Image.network(
+                  product.imageUrl,
+                  fit: BoxFit.cover,
+                ),
               ),
-              height: 300,
-              width: double.infinity,
-            ),
+              ),
+
+          ),
+          SliverList(delegate: SliverChildListDelegate([ 
             SizedBox(
-              height: 10,
+              height: 10
             ),
             Text(
               'R\$ ${product.price}',
@@ -43,10 +49,13 @@ class ProductDetailPage extends StatelessWidget {
                 product.description,
                 textAlign: TextAlign.center,
               ),
-            )
-          ],
+            ),
+            SizedBox(height: 1000,),
+            Text('Fim', textAlign:  TextAlign.center,)]))
+        ],
+        
         ),
-      ),
+      
     );
   }
 }
