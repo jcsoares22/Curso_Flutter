@@ -52,9 +52,6 @@ class AuthPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Container(
-                      child: Text('SoftWare produzidor por Júlio César'),
-                    ),
                     AuthForm(),
                   ],
                 ),
