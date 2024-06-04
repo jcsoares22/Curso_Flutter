@@ -1,4 +1,7 @@
+import 'dart:nativewrappers/_internal/vm/lib/internal_patch.dart';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:shop/exceptions/auth_exception.dart';
 import 'package:shop/models/auth.dart';
@@ -12,7 +15,8 @@ class AuthForm extends StatefulWidget {
   State<AuthForm> createState() => _MyWidgetState();
 }
 
-class _MyWidgetState extends State<AuthForm> {
+class _MyWidgetState extends State<AuthForm>
+    with SingleTickerProviderStateMixin {
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
@@ -22,17 +26,50 @@ class _MyWidgetState extends State<AuthForm> {
     'password': '',
   };
 
+  AnimationController? _controller;
+  Animation<double>? _opacityAnimation;
+  Animation<Offset>? _slideAnimation;
+
   bool _isLogin() => _authMode == AuthMode.Login;
-  bool _isSignup() => _authMode == AuthMode.Signup;
+// bool _isSignup() => _authMode == AuthMode.Signup;
 
   void _switchAuthMode() {
     setState(() {
       if (_isLogin()) {
         _authMode = AuthMode.Signup;
+        _controller?.forward();
       } else {
         _authMode = AuthMode.Login;
+        _controller?.reverse();
       }
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 300),
+    );
+    _opacityAnimation = Tween(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(
+      CurvedAnimation(parent: _controller!, curve: Curves.linear),
+    );
+    _slideAnimation = Tween<Offset>(
+      begin: Offset(0, -1.5),
+      end: Offset(0, 0),
+    ).animate(
+      CurvedAnimation(parent: _controller!, curve: Curves.linear),
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller?.dispose();
   }
 
   void _showErrorDialog(String msg) {
@@ -85,13 +122,16 @@ class _MyWidgetState extends State<AuthForm> {
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
     return Card(
-      elevation: 8,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        height: _isLogin() ? 310 : 400,
-        width: deviceSize.width * 0.75,
-        child: Form(
+        elevation: 8,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        child: AnimatedContainer(
+          duration: Duration(milliseconds: 300),
+          curve: Curves.easeIn,
+          padding: const EdgeInsets.all(16),
+          height: _isLogin() ? 310 : 400,
+          //  height: _heightAnimation?.value.height ?? (_isLogin() ? 310 : 400),
+          width: deviceSize.width * 0.75,
+          child: Form(
             key: _formKey,
             child: Column(
               children: [
@@ -108,35 +148,48 @@ class _MyWidgetState extends State<AuthForm> {
                   },
                 ),
                 TextFormField(
-                    decoration: const InputDecoration(labelText: 'Senha'),
-                    keyboardType: TextInputType.emailAddress,
-                    obscureText: true,
-                    controller: _passwordController,
-                    onSaved: (password) =>
-                        _authData['password'] = password ?? '',
-                    validator: (_password) {
-                      final password = _password ?? '';
-                      if (password.isEmpty || password.length < 5) {
-                        return 'Informe uma senha válida';
-                      }
-                      return null;
-                    }),
-                if (_isSignup())
-                  TextFormField(
-                    decoration:
-                        const InputDecoration(labelText: 'Confirmar Senha'),
-                    keyboardType: TextInputType.emailAddress,
-                    obscureText: true,
-                    validator: _authMode == _isLogin()
-                        ? null
-                        : (_password) {
-                            final password = _password ?? '';
-                            if (password != _passwordController.text) {
-                              return 'Senhas informadas não conferem.';
-                            }
-                            return null;
-                          },
+                  decoration: const InputDecoration(labelText: 'Senha'),
+                  keyboardType: TextInputType.emailAddress,
+                  obscureText: true,
+                  controller: _passwordController,
+                  onSaved: (password) => _authData['password'] = password ?? '',
+                  validator: (_password) {
+                    final password = _password ?? '';
+                    if (password.isEmpty || password.length < 5) {
+                      return 'Informe uma senha válida';
+                    }
+                    return null;
+                  },
+                ),
+                AnimatedContainer(
+                  constraints: BoxConstraints(
+                    minHeight: _isLogin() ? 0 : 60,
+                    maxHeight: _isLogin() ? 0 : 120,
                   ),
+                  duration: Duration(milliseconds: 300),
+                  curve: Curves.linear,
+                  child: FadeTransition(
+                    opacity: _opacityAnimation!,
+                    child: SlideTransition(
+                      position: _slideAnimation!,
+                      child: TextFormField(
+                        decoration:
+                            const InputDecoration(labelText: 'Confirmar Senha'),
+                        keyboardType: TextInputType.emailAddress,
+                        obscureText: true,
+                        validator: _authMode == _isLogin()
+                            ? null
+                            : (_password) {
+                                final password = _password ?? '';
+                                if (password != _passwordController.text) {
+                                  return 'Senhas informadas não conferem.';
+                                }
+                                return null;
+                              },
+                      ),
+                    ),
+                  ),
+                ),
                 SizedBox(height: 20),
                 if (_isLoading)
                   CircularProgressIndicator()
@@ -163,8 +216,8 @@ class _MyWidgetState extends State<AuthForm> {
                       _isLogin() ? 'DESEJA REGISTRAR?' : 'JÁ POSSUI CONTA?'),
                 )
               ],
-            )),
-      ),
-    );
+            ),
+          ),
+        ));
   }
 }
