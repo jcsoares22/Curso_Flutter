@@ -26,7 +26,7 @@ class ProductsPages extends StatelessWidget {
               icon: Icon(Icons.add))
         ],
       ),
-      drawer: const AppDrawer(),
+       drawer: const AppDrawer(),
       body: RefreshIndicator(
         onRefresh: () => _refreshProducts(context),
         child: Padding(
