@@ -101,22 +101,21 @@ class Auth with ChangeNotifier {
     _userId = null;
     _expiryDate = null;
     _clearLogoutTimer();
-    Store.remove('userData')
-      .then((_){
-        notifyListeners();
+    Store.remove('userData').then((_) {
+      notifyListeners();
     });
-   
+    notifyListeners();
   }
 
   void _clearLogoutTimer() {
     _logoutTimer?.cancel();
-    _logoutTimer = null;
+    return _logoutTimer = null;
   }
 
   void _autoLogout() {
     _clearLogoutTimer();
     final timeToLogout = _expiryDate?.difference(DateTime.now()).inSeconds;
-   // print(timeToLogout);
+    // print(timeToLogout);
     _logoutTimer = Timer(Duration(seconds: timeToLogout ?? 0), logout);
   }
 }

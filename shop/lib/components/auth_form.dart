@@ -12,13 +12,15 @@ class AuthForm extends StatefulWidget {
   State<AuthForm> createState() => _MyWidgetState();
 }
 
-class _MyWidgetState extends State<AuthForm> with SingleTickerProviderStateMixin {
+class _MyWidgetState extends State<AuthForm>
+    with SingleTickerProviderStateMixin {
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
   AuthMode _authMode = AuthMode.Login;
   bool _obscurePassword = true; // Add this line
-  bool _obscureConfirmPassword = true; // Add this line for confirm password field
+  bool _obscureConfirmPassword =
+      true; // Add this line for confirm password field
   Map<String, String> _authData = {
     'Email': '',
     'password': '',
@@ -148,7 +150,9 @@ class _MyWidgetState extends State<AuthForm> with SingleTickerProviderStateMixin
                   labelText: 'Senha',
                   suffixIcon: IconButton(
                     icon: Icon(
-                      _obscurePassword ? Icons.visibility : Icons.visibility_off,
+                      _obscurePassword
+                          ? Icons.visibility
+                          : Icons.visibility_off,
                     ),
                     onPressed: () {
                       setState(() {
@@ -185,11 +189,14 @@ class _MyWidgetState extends State<AuthForm> with SingleTickerProviderStateMixin
                         labelText: 'Confirmar Senha',
                         suffixIcon: IconButton(
                           icon: Icon(
-                            _obscureConfirmPassword ? Icons.visibility : Icons.visibility_off,
+                            _obscureConfirmPassword
+                                ? Icons.visibility
+                                : Icons.visibility_off,
                           ),
                           onPressed: () {
                             setState(() {
-                              _obscureConfirmPassword = !_obscureConfirmPassword;
+                              _obscureConfirmPassword =
+                                  !_obscureConfirmPassword;
                             });
                           },
                         ),
