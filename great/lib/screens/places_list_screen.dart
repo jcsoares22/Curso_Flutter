@@ -2,23 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:great/utils/app_routes.dart';
 
 class PlacesListScreen extends StatelessWidget {
-  const PlacesListScreen({super.key});
+  const PlacesListScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Meus Lugares'),
-        actions: <Widget>[
+        title: const Text('Meus Lugares'),
+        actions: [
           IconButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(AppRoutes.PLACE_FORM);
-              },
-              icon: Icon(Icons.add))
+            icon: const Icon(Icons.add),
+            onPressed: () {
+              Navigator.of(context).pushNamed(AppRoutes.placeForm);
+            },
+          )
         ],
       ),
       body: Center(
-        child: CircularProgressIndicator(),
+        child: CircularProgressIndicator(
+          color: Theme.of(context).colorScheme.secondary,
+        ),
       ),
     );
   }

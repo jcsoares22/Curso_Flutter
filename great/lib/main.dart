@@ -8,20 +8,22 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Great places',
+      title: 'Great Places',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+        colorScheme: ColorScheme.fromSwatch().copyWith(
+          primary: Colors.indigo,
+          secondary: Colors.amber,
+        ),
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: const PlacesListScreen(),
       routes: {
-        AppRoutes.PLACE_FORM: (ctx) => PlaceFormScreen(),
+        AppRoutes.placeForm: (ctx) => const PlaceFormScreen(),
       },
     );
   }
