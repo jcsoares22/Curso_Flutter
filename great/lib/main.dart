@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:great/screens/place_form_screen..dart';
+import 'package:great/screens/place_form_screen.dart';
 import 'package:great/screens/places_list_screen.dart';
 import 'package:great/utils/app_routes.dart';
 
@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
       routes: {
         AppRoutes.placeForm: (ctx) => const PlaceFormScreen(),
       },
+      debugShowCheckedModeBanner: false,
     );
   }
 }
