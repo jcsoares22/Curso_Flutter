@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSwatch().copyWith(
             primary: Colors.indigo,
             secondary: Colors.amber,
+            background: Colors.white,
           ),
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
