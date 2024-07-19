@@ -5,8 +5,8 @@ class NewMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text('new message'),
+    return const Center(
+      child: Text('Nova Mensagem'),
     );
   }
 }

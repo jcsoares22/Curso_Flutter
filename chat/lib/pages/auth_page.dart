@@ -1,7 +1,6 @@
 import 'package:chat/components/auth_form.dart';
-import 'package:chat/core/model/auth_form_data.dart';
-import 'package:chat/core/services/auth/auth_mock_services.dart';
-import 'package:chat/core/services/auth/auth_services.dart';
+import 'package:chat/core/models/auth_form_data.dart';
+import 'package:chat/core/services/auth/auth_service.dart';
 import 'package:flutter/material.dart';
 
 class AuthPage extends StatefulWidget {
@@ -19,14 +18,14 @@ class _AuthPageState extends State<AuthPage> {
       setState(() => _isLoading = true);
 
       if (formData.isLogin) {
-        //login
-        await AuthServices().login(
+        // Login
+        await AuthService().login(
           formData.email,
           formData.password,
         );
       } else {
         // Signup
-        await AuthServices().signup(
+        await AuthService().signup(
           formData.name,
           formData.email,
           formData.password,
@@ -34,31 +33,27 @@ class _AuthPageState extends State<AuthPage> {
         );
       }
     } catch (error) {
-      ///tratar o erro
+      // Tratar erro!
     } finally {
       setState(() => _isLoading = false);
     }
-    print('AuthPage...');
-    print(formData.email);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue,
+      backgroundColor: Theme.of(context).primaryColor,
       body: Stack(
         children: [
           Center(
             child: SingleChildScrollView(
-              child: AuthForm(
-                onSubmit: _handleSubmit,
-              ),
+              child: AuthForm(onSubmit: _handleSubmit),
             ),
           ),
           if (_isLoading)
             Container(
               decoration: const BoxDecoration(
-                color: Colors.blue,
+                color: Color.fromRGBO(0, 0, 0, 0.5),
               ),
               child: const Center(
                 child: CircularProgressIndicator(),

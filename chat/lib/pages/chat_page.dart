@@ -1,6 +1,6 @@
 import 'package:chat/components/messages.dart';
 import 'package:chat/components/new_message.dart';
-import 'package:chat/core/services/auth/auth_services.dart';
+import 'package:chat/core/services/auth/auth_service.dart';
 import 'package:flutter/material.dart';
 
 class ChatPage extends StatelessWidget {
@@ -34,7 +34,7 @@ class ChatPage extends StatelessWidget {
             ],
             onChanged: (value) {
               if (value == 'logout') {
-                AuthServices().logout();
+                AuthService().logout();
               }
             },
           ),

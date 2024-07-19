@@ -1,38 +1,38 @@
-import 'dart:async';
 import 'dart:io';
+import 'dart:async';
 import 'dart:math';
+import 'package:chat/core/models/chat_user.dart';
+import 'package:chat/core/services/auth/auth_service.dart';
 
-import 'package:chat/core/model/chat_user.dart';
-import 'package:chat/core/services/auth/auth_services.dart';
-
-class AuthMockServices implements AuthServices {
-  static final _defaultUser = ChatUser(
+class AuthMockService implements AuthService {
+  static const _defaultUser = ChatUser(
     id: '1',
-    name: 'teste',
-    email: 'teste@gmail',
+    name: 'Teste',
+    email: 'teste@cod3r.com.br',
     imageUrl: 'assets/images/avatar.png',
   );
-  static Map<String, ChatUser> _users = {
+
+  static final Map<String, ChatUser> _users = {
     _defaultUser.email: _defaultUser,
   };
   static ChatUser? _currentUser;
   static MultiStreamController<ChatUser?>? _controller;
+  static final _userStream = Stream<ChatUser?>.multi((controller) {
+    _controller = controller;
+    _updateUser(_defaultUser);
+  });
 
-  static final _userStream = Stream<ChatUser?>.multi(
-    (controller) {
-      _controller = controller;
-      _updateUser(_defaultUser);
-    },
-  );
-
+  @override
   ChatUser? get currentUser {
     return _currentUser;
   }
 
+  @override
   Stream<ChatUser?> get userChanges {
     return _userStream;
   }
 
+  @override
   Future<void> signup(
     String name,
     String email,
@@ -47,14 +47,15 @@ class AuthMockServices implements AuthServices {
     );
 
     _users.putIfAbsent(email, () => newUser);
-
     _updateUser(newUser);
   }
 
+  @override
   Future<void> login(String email, String password) async {
     _updateUser(_users[email]);
   }
 
+  @override
   Future<void> logout() async {
     _updateUser(null);
   }
