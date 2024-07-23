@@ -13,6 +13,12 @@ class MessageBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return 
+    return Container(
+      decoration: BoxDecoration(
+        color: belongsToCurrentUser ? Colors.grey.shade300 : Colors.blue,
+      ),
+      child: Text(message.text),
+    );
   }
 }
+//453561,
