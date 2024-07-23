@@ -28,6 +28,7 @@ class _AuthFormState extends State<AuthForm> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(msg),
+        backgroundColor: Theme.of(context).canvasColor,
       ),
     );
   }
