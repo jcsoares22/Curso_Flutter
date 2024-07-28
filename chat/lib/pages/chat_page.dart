@@ -10,7 +10,7 @@ class ChatPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Cod3r Chat'),
+        title: const Text('Chat'),
         actions: [
           DropdownButton(
             icon: Icon(
