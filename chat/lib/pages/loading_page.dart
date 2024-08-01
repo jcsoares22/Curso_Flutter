@@ -7,14 +7,14 @@ class LoadingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
-      body: Center(
+      body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const CircularProgressIndicator(
+            CircularProgressIndicator(
               backgroundColor: Colors.white,
             ),
-            const SizedBox(height: 10),
+            SizedBox(height: 10),
             Text(
               'Carregando...',
               style: TextStyle(),
